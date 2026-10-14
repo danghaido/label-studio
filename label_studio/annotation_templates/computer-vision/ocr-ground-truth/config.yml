@@ -1,0 +1,665 @@
+title: OCR ground truth
+type: community
+group: Computer Vision
+order: 1
+image: /static/templates/pdf-classification.png
+details: |
+  <h1>Gán nhãn Ground Truth OCR</h1>
+  <p>Xem tài liệu PDF bên trái, chọn một trong 12 loại tài liệu tiếng Việt và nhập Ground Truth bên phải.</p>
+  <p>Hỗ trợ bảng nhập liệu theo schema cho chi phí, hóa đơn và đơn thuốc. Sử dụng trường dữ liệu image làm URL tài liệu PDF.</p>
+config: |
+  <View>
+    <Style>
+      .htx-pdf { height: calc(100vh - 230px); min-height: 540px; width: 100%; }
+    </Style>
+    <Header value="Gán nhãn Ground Truth OCR"/>
+    <View style="display:flex; gap:12px; align-items:flex-start; width:100%;">
+      <View style="width:58%; min-width:0; position:sticky; top:8px; height:calc(100vh - 185px); overflow:hidden; padding:10px; box-sizing:border-box; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;">
+        <Header value="Xem PDF (dùng nút mở / đóng thumbnail trong thanh công cụ)"/>
+        <Pdf name="document" value="$image"/>
+      </View>
+      <View style="width:42%; min-width:0; height:calc(100vh - 185px); overflow-y:auto; padding:12px; box-sizing:border-box; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px;">
+        <Header value="Chọn loại tài liệu"/>
+        <View style="max-height:190px; overflow-y:auto; padding:10px 12px; border:1px solid #dbeafe; border-radius:9px; background:#f8fbff; margin-bottom:14px;"><Choices name="schema_type" toName="document" choice="single" showInline="false">
+          <Choice value="medical_billing_statement" html="Bảng kê chi phí khám chữa bệnh"/>
+          <Choice value="discharge_summary" html="Giấy ra viện"/>
+          <Choice value="claim_form" html="Giấy yêu cầu bồi thường"/>
+          <Choice value="medical_report" html="Báo cáo y tế"/>
+          <Choice value="vat_invoice" html="Hóa đơn giá trị gia tăng"/>
+          <Choice value="claimant_expense_statement" html="Bảng kê chi phí (Bệnh nhân tự lập)"/>
+          <Choice value="hospital_billing_statement" html="Bảng kê viện phí"/>
+          <Choice value="citizen_identity_card" html="Căn cước công dân / Căn cước"/>
+          <Choice value="submitted_document_list" html="Bảng kê chứng từ cung cấp"/>
+          <Choice value="insurance_card" html="Thẻ bảo hiểm"/>
+          <Choice value="outpatient_medical_record" html="Phiếu khám bệnh"/>
+          <Choice value="prescription" html="Đơn thuốc"/>
+        </Choices>
+        </View><View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="medical_billing_statement">
+          <Header value="Bảng kê chi phí khám chữa bệnh"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (15 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="medical_billing_statement__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Department name" size="5"/>
+          <TextArea name="medical_billing_statement__department_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical record number" size="5"/>
+          <TextArea name="medical_billing_statement__medical_record_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="medical_billing_statement__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="medical_billing_statement__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient age" size="5"/>
+          <TextArea name="medical_billing_statement__patient_age" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient gender" size="5"/>
+          <TextArea name="medical_billing_statement__patient_gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient address" size="5"/>
+          <TextArea name="medical_billing_statement__patient_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Encounter date" size="5"/>
+          <TextArea name="medical_billing_statement__encounter_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Admission date" size="5"/>
+          <TextArea name="medical_billing_statement__admission_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Discharge date" size="5"/>
+          <TextArea name="medical_billing_statement__discharge_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Icd code" size="5"/>
+          <TextArea name="medical_billing_statement__icd_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Comorbidities" size="5"/>
+          <TextArea name="medical_billing_statement__comorbidities" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Comorbidity codes" size="5"/>
+          <TextArea name="medical_billing_statement__comorbidity_codes" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Room name" size="5"/>
+          <TextArea name="medical_billing_statement__room_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (5 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="medical_billing_statement__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="medical_billing_statement__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance number" size="5"/>
+          <TextArea name="medical_billing_statement__health_insurance_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance valid from" size="5"/>
+          <TextArea name="medical_billing_statement__health_insurance_valid_from" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance rate" size="5"/>
+          <TextArea name="medical_billing_statement__health_insurance_rate" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (8 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Payment date" size="5"/>
+          <TextArea name="medical_billing_statement__payment_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total treatment days" size="5"/>
+          <TextArea name="medical_billing_statement__total_treatment_days" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total treatment cost" size="5"/>
+          <TextArea name="medical_billing_statement__total_treatment_cost" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance paid amount" size="5"/>
+          <TextArea name="medical_billing_statement__health_insurance_paid_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total patient co paid" size="5"/>
+          <TextArea name="medical_billing_statement__total_patient_co_paid" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total patient self paid" size="5"/>
+          <TextArea name="medical_billing_statement__total_patient_self_paid" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total other sources paid" size="5"/>
+          <TextArea name="medical_billing_statement__total_other_sources_paid" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total payor paid amount" size="5"/>
+          <TextArea name="medical_billing_statement__total_payor_paid_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Billing line items" size="5"/>
+          <TextArea name="medical_billing_statement__billing_line_items" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;sequence_number&quot;,&quot;field_name&quot;:&quot;STT&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;item_name&quot;,&quot;field_name&quot;:&quot;Nội dung&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;unit&quot;,&quot;field_name&quot;:&quot;Đơn vị tính&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;quantity&quot;,&quot;field_name&quot;:&quot;Số lượng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;unit_price&quot;,&quot;field_name&quot;:&quot;Đơn giá&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;insurance_unit_price&quot;,&quot;field_name&quot;:&quot;Đơn giá BH&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;service_payment_rate&quot;,&quot;field_name&quot;:&quot;Tỷ lệ TT theo dịch vụ&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;hospital_amount&quot;,&quot;field_name&quot;:&quot;Thành tiền BV / Tổng tiền&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;discount_amount&quot;,&quot;field_name&quot;:&quot;Chiết khấu/ Miễn giảm&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;tax_amount&quot;,&quot;field_name&quot;:&quot;Thuế&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;net_amount&quot;,&quot;field_name&quot;:&quot;Số tiền thanh toán&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;insurance_payment_rate&quot;,&quot;field_name&quot;:&quot;Tỷ lệ TT BHYT&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;insurance_amount&quot;,&quot;field_name&quot;:&quot;Thành tiền BHYT&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;hi_fund_paid&quot;,&quot;field_name&quot;:&quot;Quỹ BHYT / BHYT chi trả&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;patient_co_payment&quot;,&quot;field_name&quot;:&quot;Đồng chi trả&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;payor_payment&quot;,&quot;field_name&quot;:&quot;Dành cho bên thanh toán&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;other_source_paid&quot;,&quot;field_name&quot;:&quot;Nguồn khác&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;patient_out_of_pocket&quot;,&quot;field_name&quot;:&quot;Người bệnh tự chi trả / Người bệnh trả&quot;}]"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has accountant signature" size="5"/>
+          <Choices name="medical_billing_statement__has_accountant_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has healthcare facility stamp" size="5"/>
+          <Choices name="medical_billing_statement__has_healthcare_facility_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="discharge_summary">
+          <Header value="Giấy ra viện"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (10 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="discharge_summary__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical record number" size="5"/>
+          <TextArea name="discharge_summary__medical_record_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="discharge_summary__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="discharge_summary__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient age" size="5"/>
+          <TextArea name="discharge_summary__patient_age" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient gender" size="5"/>
+          <TextArea name="discharge_summary__patient_gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Admission date" size="5"/>
+          <TextArea name="discharge_summary__admission_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Discharge date" size="5"/>
+          <TextArea name="discharge_summary__discharge_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Parents name" size="5"/>
+          <TextArea name="discharge_summary__parents_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Discharge sign date" size="5"/>
+          <TextArea name="discharge_summary__discharge_sign_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (4 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="discharge_summary__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance number" size="5"/>
+          <TextArea name="discharge_summary__health_insurance_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="discharge_summary__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Treatment method" size="5"/>
+          <TextArea name="discharge_summary__treatment_method" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has authorized signature" size="5"/>
+          <Choices name="discharge_summary__has_authorized_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has healthcare facility stamp" size="5"/>
+          <Choices name="discharge_summary__has_healthcare_facility_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="claim_form">
+          <Header value="Giấy yêu cầu bồi thường"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (23 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="claim_form__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Policy holder" size="5"/>
+          <TextArea name="claim_form__policy_holder" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Insured name" size="5"/>
+          <TextArea name="claim_form__insured_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="claim_form__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="National id" size="5"/>
+          <TextArea name="claim_form__national_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Employee id" size="5"/>
+          <TextArea name="claim_form__employee_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Email address" size="5"/>
+          <TextArea name="claim_form__email_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Phone number" size="5"/>
+          <TextArea name="claim_form__phone_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Relative name" size="5"/>
+          <TextArea name="claim_form__relative_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Accident date" size="5"/>
+          <TextArea name="claim_form__accident_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Accident cause" size="5"/>
+          <TextArea name="claim_form__accident_cause" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Accident consequence" size="5"/>
+          <TextArea name="claim_form__accident_consequence" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Admission date" size="5"/>
+          <TextArea name="claim_form__admission_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Discharge date" size="5"/>
+          <TextArea name="claim_form__discharge_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cash beneficiary name" size="5"/>
+          <TextArea name="claim_form__cash_beneficiary_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cash beneficiary id" size="5"/>
+          <TextArea name="claim_form__cash_beneficiary_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cash id issue date" size="5"/>
+          <TextArea name="claim_form__cash_id_issue_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cash id issue place" size="5"/>
+          <TextArea name="claim_form__cash_id_issue_place" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cash receiving address" size="5"/>
+          <TextArea name="claim_form__cash_receiving_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Beneficiary name" size="5"/>
+          <TextArea name="claim_form__beneficiary_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Bank account number" size="5"/>
+          <TextArea name="claim_form__bank_account_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Bank name" size="5"/>
+          <TextArea name="claim_form__bank_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Bank branch address" size="5"/>
+          <TextArea name="claim_form__bank_branch_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="claim_form__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility address" size="5"/>
+          <TextArea name="claim_form__healthcare_facility_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total claimed amount" size="5"/>
+          <TextArea name="claim_form__total_claimed_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (3 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has hr signature" size="5"/>
+          <Choices name="claim_form__has_hr_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has insured signature" size="5"/>
+          <Choices name="claim_form__has_insured_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has company stamp" size="5"/>
+          <Choices name="claim_form__has_company_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="medical_report">
+          <Header value="Báo cáo y tế"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (13 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="medical_report__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical record number" size="5"/>
+          <TextArea name="medical_report__medical_record_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="medical_report__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient gender" size="5"/>
+          <TextArea name="medical_report__patient_gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Nationality" size="5"/>
+          <TextArea name="medical_report__nationality" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="medical_report__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient age" size="5"/>
+          <TextArea name="medical_report__patient_age" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient address" size="5"/>
+          <TextArea name="medical_report__patient_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Encounter date" size="5"/>
+          <TextArea name="medical_report__encounter_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Lab test results" size="5"/>
+          <TextArea name="medical_report__lab_test_results" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Icd code" size="5"/>
+          <TextArea name="medical_report__icd_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Result return date" size="5"/>
+          <TextArea name="medical_report__result_return_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Report date" size="5"/>
+          <TextArea name="medical_report__report_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (14 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="medical_report__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Admission reason" size="5"/>
+          <TextArea name="medical_report__admission_reason" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="History of present illness" size="5"/>
+          <TextArea name="medical_report__history_of_present_illness" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical examination findings" size="5"/>
+          <TextArea name="medical_report__clinical_examination_findings" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="General examination" size="5"/>
+          <TextArea name="medical_report__general_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Specialist examination" size="5"/>
+          <TextArea name="medical_report__specialist_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cardiopulmonary examination" size="5"/>
+          <TextArea name="medical_report__cardiopulmonary_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Other organ examination" size="5"/>
+          <TextArea name="medical_report__other_organ_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Main investigations" size="5"/>
+          <TextArea name="medical_report__main_investigations" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Paraclinical summary" size="5"/>
+          <TextArea name="medical_report__paraclinical_summary" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="medical_report__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Treatment plan" size="5"/>
+          <TextArea name="medical_report__treatment_plan" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Doctor advice" size="5"/>
+          <TextArea name="medical_report__doctor_advice" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Follow up appointment" size="5"/>
+          <TextArea name="medical_report__follow_up_appointment" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has physician signature" size="5"/>
+          <Choices name="medical_report__has_physician_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has healthcare facility stamp" size="5"/>
+          <Choices name="medical_report__has_healthcare_facility_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="vat_invoice">
+          <Header value="Hóa đơn giá trị gia tăng"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (21 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="vat_invoice__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Invoice serial" size="5"/>
+          <TextArea name="vat_invoice__invoice_serial" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Invoice number" size="5"/>
+          <TextArea name="vat_invoice__invoice_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller name" size="5"/>
+          <TextArea name="vat_invoice__seller_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller phone number" size="5"/>
+          <TextArea name="vat_invoice__seller_phone_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller email" size="5"/>
+          <TextArea name="vat_invoice__seller_email" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller address" size="5"/>
+          <TextArea name="vat_invoice__seller_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller bank account" size="5"/>
+          <TextArea name="vat_invoice__seller_bank_account" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer name" size="5"/>
+          <TextArea name="vat_invoice__buyer_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer company" size="5"/>
+          <TextArea name="vat_invoice__buyer_company" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="National id" size="5"/>
+          <TextArea name="vat_invoice__national_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Passport number" size="5"/>
+          <TextArea name="vat_invoice__passport_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer address" size="5"/>
+          <TextArea name="vat_invoice__buyer_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Export warehouse" size="5"/>
+          <TextArea name="vat_invoice__export_warehouse" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer bank account" size="5"/>
+          <TextArea name="vat_invoice__buyer_bank_account" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Invoice lookup code" size="5"/>
+          <TextArea name="vat_invoice__invoice_lookup_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Invoice lookup link" size="5"/>
+          <TextArea name="vat_invoice__invoice_lookup_link" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Invoice receipt code" size="5"/>
+          <TextArea name="vat_invoice__invoice_receipt_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical record number" size="5"/>
+          <TextArea name="vat_invoice__medical_record_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical code" size="5"/>
+          <TextArea name="vat_invoice__medical_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer bank name" size="5"/>
+          <TextArea name="vat_invoice__buyer_bank_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel><Panel value="Thông tin khám và điều trị (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="vat_invoice__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (7 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Tax authority code" size="5"/>
+          <TextArea name="vat_invoice__tax_authority_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Seller tax code" size="5"/>
+          <TextArea name="vat_invoice__seller_tax_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Payment method" size="5"/>
+          <TextArea name="vat_invoice__payment_method" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Buyer tax code" size="5"/>
+          <TextArea name="vat_invoice__buyer_tax_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total invoice amount" size="5"/>
+          <TextArea name="vat_invoice__total_invoice_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Amount in words" size="5"/>
+          <TextArea name="vat_invoice__amount_in_words" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Reward points" size="5"/>
+          <TextArea name="vat_invoice__reward_points" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Vat invoice line items" size="5"/>
+          <TextArea name="vat_invoice__vat_invoice_line_items" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;sequence_number&quot;,&quot;field_name&quot;:&quot;Số thứ tự&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;item_code&quot;,&quot;field_name&quot;:&quot;Mã số&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;item_name&quot;,&quot;field_name&quot;:&quot;Tên hàng hóa, dịch vụ&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;unit&quot;,&quot;field_name&quot;:&quot;Đơn vị tính&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;quantity&quot;,&quot;field_name&quot;:&quot;Số lượng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;unit_price&quot;,&quot;field_name&quot;:&quot;Đơn giá&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;amount_before_tax&quot;,&quot;field_name&quot;:&quot;Tiền chưa thuế&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;tax_rate&quot;,&quot;field_name&quot;:&quot;Thuế suất&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;tax_amount&quot;,&quot;field_name&quot;:&quot;Tiền thuế&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;vat_percentage&quot;,&quot;field_name&quot;:&quot;Thuế GTGT %&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;vat_value&quot;,&quot;field_name&quot;:&quot;Tiền thuế GTGT&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;amount_after_tax&quot;,&quot;field_name&quot;:&quot;Thành tiền&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;total_amount&quot;,&quot;field_name&quot;:&quot;Tổng cộng&quot;}]"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Vat summary table" size="5"/>
+          <TextArea name="vat_invoice__vat_summary_table" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;summary_category&quot;,&quot;field_name&quot;:&quot;Tổng hợp&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;tax_rate&quot;,&quot;field_name&quot;:&quot;Thuế suất&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;amount_before_tax&quot;,&quot;field_name&quot;:&quot;Trị giá chưa thuế giá trị gia tăng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;tax_amount&quot;,&quot;field_name&quot;:&quot;Tiền thuế giá trị gia tăng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;payment_value&quot;,&quot;field_name&quot;:&quot;Giá trị thanh toán&quot;}]"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (4 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has seller signature" size="5"/>
+          <Choices name="vat_invoice__has_seller_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has buyer signature" size="5"/>
+          <Choices name="vat_invoice__has_buyer_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has converter signature" size="5"/>
+          <Choices name="vat_invoice__has_converter_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has seller stamp" size="5"/>
+          <Choices name="vat_invoice__has_seller_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="claimant_expense_statement">
+          <Header value="Bảng kê chi phí (Bệnh nhân tự lập)"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="claimant_expense_statement__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Claimant name" size="5"/>
+          <TextArea name="claimant_expense_statement__claimant_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total billing amount" size="5"/>
+          <TextArea name="claimant_expense_statement__total_billing_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Expense line items" size="5"/>
+          <TextArea name="claimant_expense_statement__expense_line_items" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;sequence_number&quot;,&quot;field_name&quot;:&quot;STT&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;invoice_receipt_date&quot;,&quot;field_name&quot;:&quot;Ngày cấp hóa đơn&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;amount&quot;,&quot;field_name&quot;:&quot;Số tiền&quot;}]"/>
+          </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="hospital_billing_statement">
+          <Header value="Bảng kê viện phí"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (4 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Currency code" size="5"/>
+          <TextArea name="hospital_billing_statement__currency_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="hospital_billing_statement__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="hospital_billing_statement__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="hospital_billing_statement__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="hospital_billing_statement__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (5 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Billing receipt date" size="5"/>
+          <TextArea name="hospital_billing_statement__billing_receipt_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total medical expense" size="5"/>
+          <TextArea name="hospital_billing_statement__total_medical_expense" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance paid amount" size="5"/>
+          <TextArea name="hospital_billing_statement__health_insurance_paid_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient co payment" size="5"/>
+          <TextArea name="hospital_billing_statement__patient_co_payment" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Discount amount" size="5"/>
+          <TextArea name="hospital_billing_statement__discount_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Hospital billing items" size="5"/>
+          <TextArea name="hospital_billing_statement__hospital_billing_items" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;item_description&quot;,&quot;field_name&quot;:&quot;Nội dung&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;unit&quot;,&quot;field_name&quot;:&quot;Đơn vị tính&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;quantity&quot;,&quot;field_name&quot;:&quot;Số lượng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;unit_price&quot;,&quot;field_name&quot;:&quot;Đơn giá&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;total_amount&quot;,&quot;field_name&quot;:&quot;Thành tiền&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;health_insurance_cover&quot;,&quot;field_name&quot;:&quot;BHYT thanh toán (Nếu có)&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;patient_pay&quot;,&quot;field_name&quot;:&quot;Người bệnh trả (Nếu có)&quot;}]"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has paid stamp" size="5"/>
+          <Choices name="hospital_billing_statement__has_paid_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has cashier signature" size="5"/>
+          <Choices name="hospital_billing_statement__has_cashier_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="citizen_identity_card">
+          <Header value="Căn cước công dân / Căn cước"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (14 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="citizen_identity_card__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="National id" size="5"/>
+          <TextArea name="citizen_identity_card__national_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Full name" size="5"/>
+          <TextArea name="citizen_identity_card__full_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="citizen_identity_card__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Gender" size="5"/>
+          <TextArea name="citizen_identity_card__gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Nationality" size="5"/>
+          <TextArea name="citizen_identity_card__nationality" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Place of origin" size="5"/>
+          <TextArea name="citizen_identity_card__place_of_origin" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Permanent address" size="5"/>
+          <TextArea name="citizen_identity_card__permanent_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Place of residence" size="5"/>
+          <TextArea name="citizen_identity_card__place_of_residence" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Place of birth registration" size="5"/>
+          <TextArea name="citizen_identity_card__place_of_birth_registration" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of expiry" size="5"/>
+          <TextArea name="citizen_identity_card__date_of_expiry" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Personal identification" size="5"/>
+          <TextArea name="citizen_identity_card__personal_identification" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of issue" size="5"/>
+          <TextArea name="citizen_identity_card__date_of_issue" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Place of issue" size="5"/>
+          <TextArea name="citizen_identity_card__place_of_issue" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="submitted_document_list">
+          <Header value="Bảng kê chứng từ cung cấp"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (3 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="submitted_document_list__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Insured name" size="5"/>
+          <TextArea name="submitted_document_list__insured_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Claimed leave days" size="5"/>
+          <TextArea name="submitted_document_list__claimed_leave_days" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Chi phí và thanh toán (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Total claimed amount" size="5"/>
+          <TextArea name="submitted_document_list__total_claimed_amount" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Provided documents table" size="5"/>
+          <TextArea name="submitted_document_list__provided_documents_table" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;sequence_number&quot;,&quot;field_name&quot;:&quot;STT&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;document_name&quot;,&quot;field_name&quot;:&quot;Văn bản&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;document_number&quot;,&quot;field_name&quot;:&quot;Số Hoá đơn/ Chứng từ&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;amount&quot;,&quot;field_name&quot;:&quot;Số tiền&quot;},{&quot;data_type&quot;:&quot;boolean&quot;,&quot;field_key&quot;:&quot;is_original&quot;,&quot;field_name&quot;:&quot;Bản gốc&quot;},{&quot;data_type&quot;:&quot;boolean&quot;,&quot;field_key&quot;:&quot;is_notarized&quot;,&quot;field_name&quot;:&quot;Bản sao y&quot;},{&quot;data_type&quot;:&quot;boolean&quot;,&quot;field_key&quot;:&quot;is_copy&quot;,&quot;field_name&quot;:&quot;Bản photo&quot;}]"/>
+          </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="insurance_card">
+          <Header value="Thẻ bảo hiểm"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (6 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Policyholder name" size="5"/>
+          <TextArea name="insurance_card__policyholder_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Insured name" size="5"/>
+          <TextArea name="insurance_card__insured_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="insurance_card__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="National id" size="5"/>
+          <TextArea name="insurance_card__national_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Policy number" size="5"/>
+          <TextArea name="insurance_card__policy_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Insurance period" size="5"/>
+          <TextArea name="insurance_card__insurance_period" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="outpatient_medical_record">
+          <Header value="Phiếu khám bệnh"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (20 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="outpatient_medical_record__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical code" size="5"/>
+          <TextArea name="outpatient_medical_record__medical_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinic area" size="5"/>
+          <TextArea name="outpatient_medical_record__clinic_area" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Encounter date" size="5"/>
+          <TextArea name="outpatient_medical_record__encounter_date" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Examining doctor name" size="5"/>
+          <TextArea name="outpatient_medical_record__examining_doctor_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical record number" size="5"/>
+          <TextArea name="outpatient_medical_record__medical_record_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="outpatient_medical_record__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient gender" size="5"/>
+          <TextArea name="outpatient_medical_record__patient_gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="outpatient_medical_record__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Birth year" size="5"/>
+          <TextArea name="outpatient_medical_record__birth_year" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient age" size="5"/>
+          <TextArea name="outpatient_medical_record__patient_age" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient address" size="5"/>
+          <TextArea name="outpatient_medical_record__patient_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Phone number" size="5"/>
+          <TextArea name="outpatient_medical_record__phone_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Occupation" size="5"/>
+          <TextArea name="outpatient_medical_record__occupation" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Ethnicity" size="5"/>
+          <TextArea name="outpatient_medical_record__ethnicity" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Workplace" size="5"/>
+          <TextArea name="outpatient_medical_record__workplace" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient object type" size="5"/>
+          <TextArea name="outpatient_medical_record__patient_object_type" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Room name" size="5"/>
+          <TextArea name="outpatient_medical_record__room_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Icd code" size="5"/>
+          <TextArea name="outpatient_medical_record__icd_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Other medical issues" size="5"/>
+          <TextArea name="outpatient_medical_record__other_medical_issues" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (34 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="outpatient_medical_record__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Examination sequence number" size="5"/>
+          <TextArea name="outpatient_medical_record__examination_sequence_number" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Expected examination time" size="5"/>
+          <TextArea name="outpatient_medical_record__expected_examination_time" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Examination session" size="5"/>
+          <TextArea name="outpatient_medical_record__examination_session" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Examination fee" size="5"/>
+          <TextArea name="outpatient_medical_record__examination_fee" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance number" size="5"/>
+          <TextArea name="outpatient_medical_record__health_insurance_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Examination request" size="5"/>
+          <TextArea name="outpatient_medical_record__examination_request" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Pulse rate" size="5"/>
+          <TextArea name="outpatient_medical_record__pulse_rate" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Respiratory rate" size="5"/>
+          <TextArea name="outpatient_medical_record__respiratory_rate" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Height" size="5"/>
+          <TextArea name="outpatient_medical_record__height" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Bmi index" size="5"/>
+          <TextArea name="outpatient_medical_record__bmi_index" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Body temperature" size="5"/>
+          <TextArea name="outpatient_medical_record__body_temperature" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Blood pressure" size="5"/>
+          <TextArea name="outpatient_medical_record__blood_pressure" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Weight" size="5"/>
+          <TextArea name="outpatient_medical_record__weight" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Admission reason" size="5"/>
+          <TextArea name="outpatient_medical_record__admission_reason" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Medical history" size="5"/>
+          <TextArea name="outpatient_medical_record__medical_history" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="History of present illness" size="5"/>
+          <TextArea name="outpatient_medical_record__history_of_present_illness" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="General examination" size="5"/>
+          <TextArea name="outpatient_medical_record__general_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Organ examination" size="5"/>
+          <TextArea name="outpatient_medical_record__organ_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Preliminary diagnosis" size="5"/>
+          <TextArea name="outpatient_medical_record__preliminary_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Paraclinical summary" size="5"/>
+          <TextArea name="outpatient_medical_record__paraclinical_summary" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="outpatient_medical_record__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Treatment given" size="5"/>
+          <TextArea name="outpatient_medical_record__treatment_given" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Treatment plan" size="5"/>
+          <TextArea name="outpatient_medical_record__treatment_plan" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Intraoral examination" size="5"/>
+          <TextArea name="outpatient_medical_record__intraoral_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Family medical history" size="5"/>
+          <TextArea name="outpatient_medical_record__family_medical_history" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Treatment request" size="5"/>
+          <TextArea name="outpatient_medical_record__treatment_request" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Cardiovascular status" size="5"/>
+          <TextArea name="outpatient_medical_record__cardiovascular_status" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Blood glucose" size="5"/>
+          <TextArea name="outpatient_medical_record__blood_glucose" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Blood indicators" size="5"/>
+          <TextArea name="outpatient_medical_record__blood_indicators" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Drug allergy" size="5"/>
+          <TextArea name="outpatient_medical_record__drug_allergy" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical note" size="5"/>
+          <TextArea name="outpatient_medical_record__clinical_note" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Pain score" size="5"/>
+          <TextArea name="outpatient_medical_record__pain_score" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Extraoral examination" size="5"/>
+          <TextArea name="outpatient_medical_record__extraoral_examination" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+        </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has physician signature" size="5"/>
+          <Choices name="outpatient_medical_record__has_physician_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has healthcare facility stamp" size="5"/>
+          <Choices name="outpatient_medical_record__has_healthcare_facility_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View></View></Panel></Collapse></View>
+        <View visibleWhen="choice-selected" whenTagName="schema_type" whenChoiceValue="prescription">
+          <Header value="Đơn thuốc"/>
+          <Collapse accordion="false" bordered="true" open="false"><Panel value="Thông tin chung (8 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Document title" size="5"/>
+          <TextArea name="prescription__document_title" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Prescription code" size="5"/>
+          <TextArea name="prescription__prescription_code" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient name" size="5"/>
+          <TextArea name="prescription__patient_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="National id" size="5"/>
+          <TextArea name="prescription__national_id" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Date of birth" size="5"/>
+          <TextArea name="prescription__date_of_birth" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient gender" size="5"/>
+          <TextArea name="prescription__patient_gender" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Patient address" size="5"/>
+          <TextArea name="prescription__patient_address" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Phone number" size="5"/>
+          <TextArea name="prescription__phone_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Thông tin khám và điều trị (7 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Healthcare facility name" size="5"/>
+          <TextArea name="prescription__healthcare_facility_name" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Weight" size="5"/>
+          <TextArea name="prescription__weight" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance number" size="5"/>
+          <TextArea name="prescription__health_insurance_number" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Health insurance period" size="5"/>
+          <TextArea name="prescription__health_insurance_period" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Clinical diagnosis" size="5"/>
+          <TextArea name="prescription__clinical_diagnosis" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Doctor advice" size="5"/>
+          <TextArea name="prescription__doctor_advice" toName="document" rows="3" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Follow up appointment" size="5"/>
+          <TextArea name="prescription__follow_up_appointment" toName="document" rows="1" maxSubmissions="1" editable="true" transcription="true" showSubmitButton="false"/>
+          </View></View></Panel><Panel value="Bảng kê / Danh sách chi tiết (1 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:100%; min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Prescribed medications" size="5"/>
+          <TextArea name="prescription__prescribed_medications" toName="document" rows="4" editable="true" transcription="true" tableColumns="[{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;sequence_number&quot;,&quot;field_name&quot;:&quot;Số thứ tự&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;medication_name&quot;,&quot;field_name&quot;:&quot;Tên thuốc - liều dùng&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;quantity&quot;,&quot;field_name&quot;:&quot;Số lượng&quot;},{&quot;data_type&quot;:&quot;string&quot;,&quot;field_key&quot;:&quot;unit&quot;,&quot;field_name&quot;:&quot;Đơn vị tính&quot;},{&quot;data_type&quot;:&quot;number&quot;,&quot;field_key&quot;:&quot;duration_days&quot;,&quot;field_name&quot;:&quot;Số ngày&quot;}]"/>
+          </View></View></Panel><Panel value="Xác nhận và chữ ký (2 trường)"><View style="display:flex; flex-wrap:wrap; gap:10px 12px; padding:8px 0; align-items:flex-start;"><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has physician signature" size="5"/>
+          <Choices name="prescription__has_physician_signature" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+          </View><View style="width:calc(50% - 8px); min-width:190px; box-sizing:border-box; padding:8px 10px; border:1px solid #e5e7eb; border-radius:8px; background:#fff;"><Header value="Has healthcare facility stamp" size="5"/>
+          <Choices name="prescription__has_healthcare_facility_stamp" toName="document" choice="single" showInline="true">
+            <Choice value="true"/>
+            <Choice value="false"/>
+            <Choice value="null"/>
+          </Choices>
+        </View></View></Panel></Collapse></View>
+      </View>
+    </View>
+  </View>
+  
+  <!-- {"data": {"image": "/static/samples/sample.pdf"}} -->
