@@ -21,6 +21,8 @@ import ControlBase from "../Base";
 import ClassificationBase from "../ClassificationBase";
 import "./TextAreaRegionView";
 import VisibilityMixin from "../../../mixins/Visibility";
+import { TableEditor } from "./TableEditor";
+import { normalizeTableRows, parseTableColumns, parseTableValues } from "./tableData";
 
 import "./TextArea.prefix.css";
 import { cn } from "../../../utils/bem";
@@ -77,6 +79,7 @@ export const TEXTAREA_PENDING_DRAFT_META_KEY = "textAreaPendingInput";
  * @param {boolean=} [showSubmitButton]    - Determine whether to show or hide the **Add** button. By default it's hidden if `rows="1"`, and it's visible if there are more than 1 row
  * @param {boolean} [perRegion]            - Use this tag to label regions instead of whole objects
  * @param {boolean} [perItem]              - Use this tag to label items inside objects instead of whole objects
+ * @param {string} [tableColumns]          - JSON child_schema for an editable table saved as a JSON array in value.text[0]
  */
 const TagAttrs = types.model({
   toname: types.maybeNull(types.string),
@@ -90,6 +93,7 @@ const TagAttrs = types.model({
   editable: types.optional(types.boolean, false),
   transcription: false,
   skipduplicates: types.optional(types.boolean, false),
+  tablecolumns: types.maybeNull(types.string),
 });
 
 const Model = types
@@ -160,6 +164,7 @@ const Model = types
   .actions((self) => {
     let lastActiveElement = null;
     let lastActiveElementModel = null;
+    const superValidateValue = self.validateValue;
 
     const isAvailableElement = (element, elementModel) => {
       if (!element || !elementModel || !isAlive(elementModel)) return false;
@@ -170,6 +175,28 @@ const Model = types
     };
 
     return {
+      setTableRows(rows) {
+        if (self.isReadOnly() || !self.annotation.editable) return;
+        const normalized = normalizeTableRows(rows, parseTableColumns(self.tablecolumns));
+        self.updateFromResult([JSON.stringify(normalized)]);
+        self._value = "";
+        self.clearPendingDraftMeta();
+        self.onChange();
+      },
+
+      validateValue(value) {
+        if (!superValidateValue(value)) return false;
+        if (self.tablecolumns) {
+          try {
+            parseTableValues(value, parseTableColumns(self.tablecolumns));
+          } catch (error) {
+            InfoModal.warning(`${self.name}: ${error.message}`);
+            return false;
+          }
+        }
+        return true;
+      },
+
       // @todo not used?
       getSerializableValue() {
         const texts = self.regions.map((s) => s._value);
@@ -433,8 +460,26 @@ const HtxTextArea = observer(({ item }) => {
 
   visibleStyle.marginTop = "4px";
 
+  if (item.tablecolumns && item.displaymode === PER_REGION_MODES.TAG) {
+    let valid = !item._value?.trim();
+    try {
+      parseTableValues(item.selectedValues(), parseTableColumns(item.tablecolumns));
+    } catch {
+      valid = false;
+    }
+    if (valid) {
+      return (
+        <div style={visibleStyle} ref={item.elementRef}>
+          <TableEditor item={item} />
+        </div>
+      );
+    }
+    // Keep the standard text controls available to repair malformed legacy data.
+  }
+
   return item.displaymode === PER_REGION_MODES.TAG ? (
     <div className={textareaClassName} style={visibleStyle} ref={item.elementRef} data-testid="textarea-control">
+      {item.tablecolumns && <TableEditor item={item} />}
       {Tree.renderChildren(item, item.annotation)}
 
       {item.showSubmit && (

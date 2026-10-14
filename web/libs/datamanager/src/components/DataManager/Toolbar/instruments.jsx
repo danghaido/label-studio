@@ -15,6 +15,7 @@ import { LoadingPossum } from "./LoadingPossum";
 import { OrderButton } from "./OrderButton";
 import { RefreshButton } from "./RefreshButton";
 import { ViewToggle } from "./ViewToggle";
+import { DocumentTypeFilter } from "./DocumentTypeFilter";
 
 const style = {
   minWidth: "80px",
@@ -85,7 +86,12 @@ export const instruments = {
     );
   },
   filters: ({ size }) => {
-    return <FiltersPane size={size} style={style} />;
+    return (
+      <>
+        <FiltersPane size={size} style={style} />
+        <DocumentTypeFilter size={size} />
+      </>
+    );
   },
   ordering: ({ size }) => {
     return <OrderButton size={size} style={style} />;

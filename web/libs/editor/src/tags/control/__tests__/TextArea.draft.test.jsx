@@ -22,7 +22,8 @@ mockModule("keymaster", () => {
 
 import "../../../tags/visual/View";
 import "../../../tags/object/Image/Image.js";
-import "../../../tags/control/TextArea/TextArea";
+import { HtxTextArea } from "../../../tags/control/TextArea/TextArea";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import "../../../tags/control/Label";
 import "../../../tags/control/Labels/Labels";
 import "../../../regions/RectRegion";
@@ -151,5 +152,116 @@ describe("per-region TextArea draft autosave (FIT-2829)", () => {
     expect(textareaResults).toHaveLength(1);
     expect(textareaResults[0].id).toBe(area.cleanId);
     expect(textareaResults[0].value.text).toEqual(["rectext"]);
+  });
+});
+
+describe("schema-driven TextArea table persistence", () => {
+  const columns = [
+    { field_key: "name", data_type: "string" },
+    { field_key: "quantity", data_type: "number" },
+    { field_key: "original", data_type: "boolean" },
+  ];
+  const config = `<View><Image name="img" value="$img"/><TextArea name="notes" toName="img"
+    tableColumns='${JSON.stringify(columns)}'/><TextArea name="other" toName="img"/></View>`;
+
+  it("saves typed table edits and restores them through annotation deserialization", () => {
+    const { notes, annotation, store } = createStoreWithTextArea(config);
+    const rows = [{ name: "Thuốc, sáng tối", quantity: 0, original: false }, {}];
+    annotation.names.get("other").addText("unchanged");
+    notes.setTableRows(rows);
+    notes.beforeSend();
+    const result = annotation.serializeAnnotation({ fast: true });
+    const table = result.find((entry) => entry.from_name === "notes");
+    expect(table.type).toBe("textarea");
+    expect(JSON.parse(table.value.text[0])).toEqual([
+      { name: "Thuốc, sáng tối", quantity: 0, original: false },
+      { name: null, quantity: null, original: null },
+    ]);
+    expect(result.find((entry) => entry.from_name === "other").value.text).toEqual(["unchanged"]);
+    const restored = store.annotationStore.addAnnotation({ result });
+    restored.deserializeResults(result);
+    store.annotationStore.selectAnnotation(restored.id);
+    restored.updateObjects();
+    expect(restored.names.get("notes").selectedValues()).toEqual(table.value.text);
+  });
+
+  it("reads legacy prediction results and can delete every row", () => {
+    const { notes, annotation, img } = createStoreWithTextArea(config);
+    annotation.createResult({}, { text: ['"Thuốc, A",14,false'] }, notes, img);
+    notes.needsUpdate();
+    expect(notes.validateValue(notes.selectedValues())).toBe(true);
+    notes.setTableRows([]);
+    expect(annotation.serializeAnnotation({ fast: true }).find((r) => r.from_name === "notes").value.text).toEqual([
+      "[]",
+    ]);
+  });
+
+  it("persists table data in drafts and updates the same result", async () => {
+    const { notes, annotation, store } = createStoreWithTextArea(config);
+    store.submitDraft = mock().mockResolvedValue({ id: 1 });
+    notes.setTableRows([{ name: "first", quantity: 1, original: true }]);
+    notes.setTableRows([{ name: "updated", quantity: 0, original: false }]);
+    await annotation.saveDraft();
+    const results = annotation.serializeAnnotation({ fast: true }).filter((r) => r.from_name === "notes");
+    expect(results).toHaveLength(1);
+    expect(JSON.parse(results[0].value.text[0])).toEqual([{ name: "updated", quantity: 0, original: false }]);
+    expect(results[0].meta?.textAreaPendingInput).toBeUndefined();
+  });
+
+  it("does not edit results when annotation is read-only", () => {
+    const { notes, annotation } = createStoreWithTextArea(config);
+    notes.setTableRows([{ name: "keep", quantity: 1, original: true }]);
+    const previous = notes.selectedValues();
+    annotation.setEditable(false);
+    notes.setTableRows([]);
+    expect(notes.selectedValues()).toEqual(previous);
+  });
+
+  it("adds, edits and deletes rows through the rendered editor", () => {
+    const { notes, annotation } = createStoreWithTextArea(config);
+    const view = render(<HtxTextArea item={notes} />);
+    try {
+      fireEvent.click(view.getByText("Thêm dòng"));
+      fireEvent.change(view.getByLabelText("Dòng 1: name"), { target: { value: "Thuốc, A" } });
+      expect(JSON.parse(notes.selectedValues()[0])[0].name).toBe("Thuốc, A");
+      fireEvent.change(view.getByLabelText("Dòng 1: quantity"), { target: { value: "14" } });
+      fireEvent.blur(view.getByLabelText("Dòng 1: quantity"));
+      expect(JSON.parse(notes.selectedValues()[0])[0].quantity).toBe(14);
+      fireEvent.click(view.getByText("Thêm dòng"));
+      expect(JSON.parse(notes.selectedValues()[0])).toHaveLength(2);
+      fireEvent.click(view.getByLabelText("Xóa dòng 1"));
+      const result = annotation.serializeAnnotation({ fast: true }).find((r) => r.from_name === "notes");
+      expect(JSON.parse(result.value.text[0])).toEqual([{ name: null, quantity: null, original: null }]);
+    } finally {
+      cleanup();
+    }
+  });
+
+  it("keeps pending legacy draft input available instead of replacing it with an empty table", () => {
+    const { notes } = createStoreWithTextArea(config);
+    notes.setValue("legacy,14,false", { skipDraftSave: true });
+    const view = render(<HtxTextArea item={notes} />);
+    try {
+      expect(view.queryByTestId("table-editor")).toBeNull();
+      expect(view.getByTestId("textarea-input").value).toBe("legacy,14,false");
+      expect(notes._value).toBe("legacy,14,false");
+    } finally {
+      cleanup();
+    }
+  });
+
+  it("can delete malformed legacy rows and return to the table editor", () => {
+    const editableConfig = config.replace("tableColumns=", 'editable="true" transcription="true" tableColumns=');
+    const { notes } = createStoreWithTextArea(editableConfig);
+    notes.addText("bad,not-a-number,false");
+    const view = render(<HtxTextArea item={notes} />);
+    try {
+      expect(view.queryByTestId("table-editor")).toBeNull();
+      fireEvent.click(view.getByTestId("htx-textbox-delete-button"));
+      expect(notes.selectedValues()).toEqual([]);
+      expect(view.getByTestId("table-editor")).toBeDefined();
+    } finally {
+      cleanup();
+    }
   });
 });

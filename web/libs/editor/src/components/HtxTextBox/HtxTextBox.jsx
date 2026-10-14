@@ -151,6 +151,20 @@ export class HtxTextBox extends React.Component {
     return (
       <div className={cn("textarea").elem("region").toClassName()} data-testid="htx-textbox-edit">
         {rows > 1 ? <textarea {...inputProps} /> : <input {...inputProps} />}
+        {this.props.isDeleteable && this.props.onDelete && (
+          <Button
+            type="text"
+            variant="negative"
+            look="outlined"
+            size="small"
+            leading={<IconTrashAlt />}
+            aria-label="Delete Region"
+            data-testid="htx-textbox-delete-button"
+            // Deleting a row must not first commit the focused input through onBlur.
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={this.props.onDelete}
+          />
+        )}
         {!onlyEdit && (
           <Tooltip title="Save: [shift+enter]">
             <Button

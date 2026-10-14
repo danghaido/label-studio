@@ -12,6 +12,7 @@ import ujson as json
 from core.feature_flags import flag_set
 from core.utils.db import fast_first
 from data_manager.column_names import UNQUERYABLE_COLUMN_NAME_CHARACTERS, is_queryable_column_name
+from data_manager.document_types import DOCUMENT_TYPE_FIELD, annotate_document_type, document_type_filter
 from data_manager.prepare_params import ConjunctionEnum
 from django.conf import settings
 from django.contrib.postgres.aggregates import ArrayAgg
@@ -833,6 +834,10 @@ def apply_filters(queryset, filters, project, request):
             # filter pre-processing, value type conversion, etc..
             _filter = preprocess_filter(_filter, field_name)
 
+            if field_name == DOCUMENT_TYPE_FIELD:
+                filter_expressions.append(document_type_filter(_filter.operator, _filter.value))
+                continue
+
             # Semantic validation for in_list / not_in_list (BROS-1203). Runs *before*
             # the LSE custom hook and *before* the annotations_ids compiler so public
             # in_list allowlisting stays independent of annotation-ID filter semantics.
@@ -1348,6 +1353,7 @@ def annotate_state(queryset):
 
 
 settings.DATA_MANAGER_ANNOTATIONS_MAP = {
+    DOCUMENT_TYPE_FIELD: annotate_document_type,
     'avg_lead_time': annotate_avg_lead_time,
     'completed_at': annotate_completed_at,
     'annotations_results': annotate_annotations_results,

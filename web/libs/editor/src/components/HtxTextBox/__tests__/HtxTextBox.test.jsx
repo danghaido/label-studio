@@ -138,6 +138,18 @@ describe("HtxTextBox", () => {
       expect(screen.queryByTestId("htx-textbox-save")).not.toBeInTheDocument();
     });
 
+    it("can delete a transcription row while it is always editable", () => {
+      const onDelete = mock();
+      render(<HtxTextBox {...defaultProps} onlyEdit={true} onDelete={onDelete} />);
+      fireEvent.click(screen.getByTestId("htx-textbox-delete-button"));
+      expect(onDelete).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not show delete for protected transcription rows", () => {
+      render(<HtxTextBox {...defaultProps} onlyEdit={true} isDeleteable={false} />);
+      expect(screen.queryByTestId("htx-textbox-delete-button")).not.toBeInTheDocument();
+    });
+
     it("calls onStartEditing when entering edit mode", async () => {
       const user = userEvent.setup({ advanceTimers: advanceTimersByTime });
       const onStartEditing = mock();

@@ -7,6 +7,7 @@ from urllib.parse import unquote
 
 import ujson as json
 from core.utils.common import int_from_request, load_func
+from data_manager.document_types import document_type_column
 from data_manager.models import View
 from data_manager.prepare_params import PrepareParams
 from django.conf import settings
@@ -295,6 +296,9 @@ def get_all_columns(project, *_):
         },
     ]
 
+    document_types = document_type_column(project)
+    if document_types is not None:
+        result['columns'].append(document_types)
     result['columns'].append(data_root)
 
     return result

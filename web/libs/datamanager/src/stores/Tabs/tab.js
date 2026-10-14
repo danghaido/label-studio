@@ -520,6 +520,26 @@ export const Tab = types
       if (filter.isValidFilter) self.save();
     },
 
+    setDocumentTypeFilter(values, operator = "contains") {
+      if (self.isLockedByManager) return self.notifyLocked();
+      const filterType = self.availableFilters.find((type) => type.field.alias === "ocr_document_type");
+      if (!filterType || !["contains", "not_contains"].includes(operator)) return;
+      const existing = self.filters.find((filter) => filter.filter.id === filterType.id);
+      if (!values.length) {
+        if (existing) self.deleteFilter(existing);
+        return;
+      }
+      if (existing) {
+        existing.operator = operator;
+        existing.setValue(values);
+      } else {
+        self.filters.push({ filter: filterType.id, operator, value: values });
+      }
+      self.root.unsetSelection();
+      self.clearSelection();
+      return self.save({ interaction: "filter" });
+    },
+
     /**
      * Create a new filter row for the provided filter *type* (column).
      */
